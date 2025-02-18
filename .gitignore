@@ -174,3 +174,4 @@ cython_debug/
 DATA-CLEANING/PROCESSED/
 DATA-CLEANING/basedata/
 plots/
+.DS_Store

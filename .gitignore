@@ -175,3 +175,5 @@ DATA-CLEANING/PROCESSED/
 DATA-CLEANING/basedata/
 plots/
 .DS_Store
+.png 
+.jpg

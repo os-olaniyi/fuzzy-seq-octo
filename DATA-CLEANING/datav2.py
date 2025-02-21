@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from datetime import datetime
 
 
 
@@ -9,6 +10,7 @@ cleaned_dir.mkdir(parents = True, exist_ok = True)
 
 def load_clean(file_path, sheet_name="Sheet1"):
     df = pd.read_excel(file_path, sheet_name=sheet_name)
+    original_file_name = Path(file_path).stem
 
     pd.set_option('display.max_columns', None)  # Show all columns
     pd.set_option('display.width', None)        # Don't wrap wide tables
@@ -17,7 +19,9 @@ def load_clean(file_path, sheet_name="Sheet1"):
         # Clean the data
     df.columns = df.columns.str.strip()
     
-    file_path = cleaned_dir/"cleaned_raw_wobj_data.csv"
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file = f"{original_file_name}_{timestamp}.csv"
+    file_path = cleaned_dir/output_file
     df.to_csv(file_path, index = False)
     print(f"Cleaned data saved to {file_path}")
 

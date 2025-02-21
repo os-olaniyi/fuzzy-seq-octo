@@ -3,6 +3,10 @@ import numpy as np
 from pathlib import Path
 
 
+
+cleaned_dir = Path("PROCESSED")
+cleaned_dir.mkdir(parents = True, exist_ok = True)
+
 def load_clean(file_path, sheet_name="Sheet1"):
     df = pd.read_excel(file_path, sheet_name=sheet_name)
 
@@ -12,7 +16,10 @@ def load_clean(file_path, sheet_name="Sheet1"):
 
         # Clean the data
     df.columns = df.columns.str.strip()
-    #df.columns = df.columns.str.lower()
+    
+    file_path = cleaned_dir/"cleaned_raw_wobj_data.csv"
+    df.to_csv(file_path, index = False)
+    print(f"Cleaned data saved to {file_path}")
 
     expected_columns = [
         "Time", "X", "Y", "Z", "Z_Adjust", "q1", "q2", "q3", "q4", 

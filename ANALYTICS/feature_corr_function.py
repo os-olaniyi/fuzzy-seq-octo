@@ -41,11 +41,6 @@ class FeatureCorrelationAnalyzer:
         
         # Read the data
         self.df = pd.read_csv(self.data_path)
-        
-        # # Setup output capturing
-        # self.output_buffer = StringIO()
-        # self.original_stdout = sys.stdout
-        # sys.stdout = self.output_buffer
 
         # Suppress specific warning from SHAP
         warnings.filterwarnings(
@@ -114,7 +109,7 @@ class FeatureCorrelationAnalyzer:
         save_plot(plt, "distributions.png", self.plot_dir)
         plt.close()
 
-    def analyze_key_correlations(self, threshold=0.5):
+    def analyze_key_correlations(self, threshold = 0.5):
         """Print key correlations above threshold."""
         print("\nKey Correlations:")
         for feature1 in self.key_features:
@@ -216,7 +211,7 @@ class FeatureCorrelationAnalyzer:
     def analyze_comprehensive_importance(self):
         """Analyze and plot comprehensive feature importance."""
         for target in self.target_features:
-            X = self.df[self.key_features].drop(target, axis=1)
+            X = self.df[self.key_features].drop(target, axis = 1)
             y = self.df[target]
             
             importance_df, shap_values = self.comprehensive_feature_importance(X, y)
@@ -229,8 +224,8 @@ class FeatureCorrelationAnalyzer:
             
             # Print detailed analysis
             print("\nFeature Ranking Summary:")
-            rankings = importance_df.rank(ascending=False)
-            mean_rank = rankings.mean(axis=1).sort_values()
+            rankings = importance_df.rank(ascending = False)
+            mean_rank = rankings.mean(axis = 1).sort_values()
             
             for feature in mean_rank.index:
                 print(f"\n{feature}:")
@@ -241,8 +236,8 @@ class FeatureCorrelationAnalyzer:
     
     def _plot_comprehensive_importance(self, importance_df, shap_values, X, target):
         """Helper method to create comprehensive importance plots."""
-        fig = plt.figure(figsize=(15, 16))
-        gs = fig.add_gridspec(2, 1, height_ratios=[1, 1.2], hspace=1.0)
+        fig = plt.figure(figsize = (15, 16))
+        gs = fig.add_gridspec(2, 1, height_ratios = [1, 1.2], hspace = 1.0)
         
         # Bar plot
         ax1 = fig.add_subplot(gs[0])
@@ -257,48 +252,48 @@ class FeatureCorrelationAnalyzer:
             ax1.bar(x + idx * bar_width, 
                    metrics_plot[column], 
                    bar_width, 
-                   label=column.replace('_', ' '),
-                   color=color)
+                   label = column.replace('_', ' '),
+                   color = color)
         
         ax1.set_title(f'Feature Importance Metrics for {target}', 
-                     pad=20, fontsize=14, fontweight="bold")
+                     pad = 20, fontsize = 14, fontweight = "bold")
         ax1.set_xticks(x + bar_width * 1.5)
-        ax1.set_xticklabels(importance_df['Feature'], rotation=30, ha="right", fontsize=10)
-        ax1.grid(True, axis="y", linestyle='--', alpha=0.3)
-        ax1.set_ylabel("Importance Score", fontsize=12)
-        ax1.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=10)
+        ax1.set_xticklabels(importance_df['Feature'], rotation = 30, ha = "right", fontsize = 10)
+        ax1.grid(True, axis = "y", linestyle = '--', alpha = 0.3)
+        ax1.set_ylabel("Importance Score", fontsize = 12)
+        ax1.legend(bbox_to_anchor = (1.02, 1), loc = "upper left", fontsize = 10)
         
         # SHAP plot
         ax2 = fig.add_subplot(gs[1])
         shap.summary_plot(
             shap_values, 
             X,
-            plot_type="bar",
-            show=False,
-            max_display=10,
-            plot_size=(12, 6)
+            plot_type = "bar",
+            show = False,
+            max_display = 10,
+            plot_size = (12, 6)
         )
         
         ax2.set_title(f'SHAP Feature Importance for {target}', 
-                     pad=40,
-                     y=1.1,
-                     fontsize=14, 
-                     fontweight="bold")
+                     pad = 40,
+                     y = 1.1,
+                     fontsize = 14, 
+                     fontweight = "bold")
         
         plt.subplots_adjust(
-            top=0.95,     
-            bottom=0.1,   
-            hspace=1.0,  
-            right=0.85,  
-            left=0.1    
+            top = 0.95,     
+            bottom = 0.1,   
+            hspace = 1.0,  
+            right = 0.85,  
+            left = 0.1    
         )
         plt.show()
         save_plot(
             plt, 
             f'comprehensive_importance_{target.replace(" ", "_")}.png', 
             self.plot_dir, 
-            dpi=300, 
-            bbox_inches="tight"
+            dpi = 300, 
+            bbox_inches = "tight"
         )
         plt.close()
 

@@ -22,7 +22,6 @@ from utils import (
     save_analysis_to_file
 )
 
-# Suppress specific warning from SHAP
 warnings.filterwarnings(
     'ignore', 
     message = 'This figure includes Axes that are not compatible with tight_layout',
@@ -37,7 +36,7 @@ plot_dir = setup_plot_directory()
 
 """Read the data"""
 script_path = Path(__file__).resolve()
-project_root = script_path.parent.parent  # Go up one level from ANALYTICS to CODES
+project_root = script_path.parent.parent                                            # Go up one level from ANALYTICS to CODES
 csv_path = project_root /"DATA-CLEAN"/"PROCESSED"/"cleaned_proc_data_v1.csv"
 
 df = pd.read_csv(csv_path)
@@ -66,7 +65,7 @@ save_plot(plt, "pairwise_plots.png", plot_dir)
 plt.close()
 
 """ Time Series Analysis """
-plt.figure(figsize=(15, 10))
+plt.figure(figsize = (15, 10))
 for i, feature in enumerate(key_features, 1):
     plt.subplot(3, 3, i)
     plt.plot(df['Datetime'], df[feature])
@@ -199,7 +198,7 @@ target_features = ["Procada Current", "Procada Voltage", "Laser Power"]
 
 for target in target_features:
     # Prepare X and y
-    X = df[key_features].drop(target, axis = 1)  # Remove target from features
+    X = df[key_features].drop(target, axis = 1)                                             # Remove target from features
     y = df[target]
     
     # Run comprehensive analysis
